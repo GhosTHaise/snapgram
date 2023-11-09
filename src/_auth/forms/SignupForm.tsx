@@ -36,8 +36,14 @@ const SignupForm = () => {
     console.log(values)
   }
   return (
-    <div>
       <Form {...form}>
+        <div className="sm:w-420 flex-center flex-col">
+          <img
+            src="/assets/images/logo.svg"
+            alt="logo"
+          />
+        </div>
+
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
@@ -58,7 +64,6 @@ const SignupForm = () => {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-    </div>
   )
 }
 
