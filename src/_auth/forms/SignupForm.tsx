@@ -15,6 +15,7 @@ import {
 import { signupValidation } from "@/lib/validation"
 import { Input } from "@/components/ui/input"
 import { Loader } from "lucide-react"
+import { Link } from "react-router-dom"
 
 
 
@@ -122,8 +123,14 @@ const SignupForm = () => {
                   "Sign up"
             }
           </Button>
-          <p>
-            
+          <p className="small-regular text-light-2 text-center mt-2">
+            Already have an account ? {" "}
+            <Link 
+              to={"/sign-in"}
+              className="text-primary-500 small-semibold"
+            >
+              Log in
+            </Link>
           </p>
         </form>
         </div>
