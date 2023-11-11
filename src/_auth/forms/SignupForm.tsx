@@ -16,6 +16,7 @@ import { signupValidation } from "@/lib/validation"
 import { Input } from "@/components/ui/input"
 import { Loader } from "lucide-react"
 import { Link } from "react-router-dom"
+import { createUserAccount } from "@/lib/appwrite/api"
 
 
 
@@ -32,10 +33,12 @@ const SignupForm = () => {
   })
  
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof signupValidation>) {
-    // create the user 
-    //const newUser = await createUserAccount()
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof signupValidation>) {
+    // create the user
+    console.log(values);
+     
+    const newUser = await createUserAccount(values);
+    console.log(newUser)
   }
   return (
       <Form {...form}>
