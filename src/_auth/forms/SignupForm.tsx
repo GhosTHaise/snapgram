@@ -15,14 +15,17 @@ import {
 import { signupValidation } from "@/lib/validation"
 import { Input } from "@/components/ui/input"
 import { Loader } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link , useNavigate } from "react-router-dom"
 import { createUserAccount } from "@/lib/appwrite/api"
 import { useToast } from "@/components/ui/use-toast"
 import { userCreateUserAccount, userSignInAccount } from "@/lib/react-query/queriesAndMutation"
+import { useUserContext } from "@/context/AuthContext"
 
 
 const SignupForm = () => {
   const { toast } = useToast();
+  const { checkAuthUser , isLoading : isUserLoading } = useUserContext();
+  const navigate = useNavigate();
 
   const {mutateAsync : createUserAccount,isPending : isCreatingUser} = userCreateUserAccount();
   const {mutateAsync : signInAccount,isPending : isSigningIn} = userSignInAccount();
@@ -57,6 +60,16 @@ const SignupForm = () => {
 
     if(!session){
       return toast({title : "Sign in failed. Please try again."});
+    }
+
+    const isLoggedIn = await checkAuthUser();
+
+    if(isLoggedIn){
+       form.reset();
+       navigate("/")
+    }else{
+      return toast({title : "Sign in failed. Please try again."});
+      return;
     }
   }
   return (
