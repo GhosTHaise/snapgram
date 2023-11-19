@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,7 +15,6 @@ import { signupValidation } from "@/lib/validation"
 import { Input } from "@/components/ui/input"
 import { Loader } from "lucide-react"
 import { Link , useNavigate } from "react-router-dom"
-import { createUserAccount } from "@/lib/appwrite/api"
 import { useToast } from "@/components/ui/use-toast"
 import { userCreateUserAccount, userSignInAccount } from "@/lib/react-query/queriesAndMutation"
 import { useUserContext } from "@/context/AuthContext"
