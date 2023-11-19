@@ -1,7 +1,9 @@
 
-const RootLayout = () => {
+const RootLayout = ({children} : { children : React.ReactNode}) => {
   return (
-    <div>RootLayout</div>
+    <div className="w-full  md:flex">
+        {children}     
+    </div>
   )
 }
 
