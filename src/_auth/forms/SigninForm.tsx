@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Loader } from "lucide-react"
 import { Link , useNavigate } from "react-router-dom"
 import { useToast } from "@/components/ui/use-toast"
-import { userCreateUserAccount, userSignInAccount } from "@/lib/react-query/queriesAndMutation"
+import {userSignInAccount } from "@/lib/react-query/queriesAndMutation"
 import { useUserContext } from "@/context/AuthContext"
 
 
@@ -43,8 +43,8 @@ const SigninForm = () => {
       email : values.email,
       password : values.password
     });
-
-    if(!session){
+    console.log(session);
+    if(session === undefined){
       return toast({title : "Sign in failed. Please try again."});
     }
 
@@ -54,8 +54,7 @@ const SigninForm = () => {
        form.reset();
        navigate("/")
     }else{
-      return toast({title : "Sign in failed. Please try again."});
-      return;
+      return toast({title : "Sign in failed. Please try again."})
     }
   }
   return (

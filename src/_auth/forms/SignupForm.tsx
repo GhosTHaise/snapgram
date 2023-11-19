@@ -55,7 +55,8 @@ const SignupForm = () => {
       email : values.email,
       password : values.password
     });
-
+    
+    
     if(!session){
       return toast({title : "Sign in failed. Please try again."});
     }
