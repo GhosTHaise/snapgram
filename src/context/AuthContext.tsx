@@ -31,7 +31,6 @@ const AuthProvider = ({children} :  { children : React.ReactNode}) => {
   const checkAuthUser = async () => {
     try {
         const currentAccount = await getCurrentUser();
-        console.log("=>>>>>",currentAccount);
         
         if(currentAccount){
           setUser({
@@ -60,10 +59,10 @@ const AuthProvider = ({children} :  { children : React.ReactNode}) => {
     if(
       localStorage.getItem("cookieFallback") === "[]"  ||
       localStorage.getItem("cookieFallback") === null
-    ){
-        navigate("/sign-in");
-        checkAuthUser();
-    }
+    ) navigate("/sign-in");
+        
+    checkAuthUser();
+    
   },[]);
 
   const value = {
