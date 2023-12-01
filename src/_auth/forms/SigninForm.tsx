@@ -43,7 +43,6 @@ const SigninForm = () => {
       email : values.email,
       password : values.password
     });
-    console.log(session);
     if(session === undefined){
       return toast({title : "Sign in failed. Please try again."});
     }
