@@ -100,6 +100,31 @@ export async function createPost(post : INewPost){
             deleteFile(uploadedFile.$id)
             throw Error
         }
+
+        //convert tags in an array
+        const tags = post.tags?.replace(/ /g,'').split(",") || [];
+
+        //save post to data base
+        const newPost = await databases.createDocument(
+            appwriteconfig.databaseId,
+            appwriteconfig.postCollectionId,
+            ID.unique(),
+            {
+                creator : post.userId,
+                caption : post.caption,
+                imageUrl : fileUrl,
+                imageId : uploadedFile.$id,
+                location : post.location,
+                tags : tags
+            }
+        )
+
+        if(!newPost) {
+            await deleteFile(uploadedFile.$id)
+            throw Error
+        }
+
+        return newPost
     }catch (error) {
         console.log(error);
     }
