@@ -97,6 +97,7 @@ export async function createPost(post : INewPost){
         const fileUrl = getFilePreview(uploadedFile.$id)
 
         if(!fileUrl) {
+            deleteFile(uploadedFile.$id)
             throw Error
         }
     }catch (error) {
@@ -115,6 +116,19 @@ export async function uploadFile(file : File){
         return uploadedFile;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export async function deleteFile(fileId : string){
+    try {
+        await storage.deleteFile(
+            appwriteconfig.storageId,
+            fileId
+        )
+
+        return { status : "ok"}
+    } catch (error) {
+        console.log(error)
     }
 }
 
