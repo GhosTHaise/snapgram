@@ -1,9 +1,10 @@
 import React from 'react'
 
 const Loader = () => {
+  //w-full
   return (
     <div
-        className=' w-full'
+        className='w-fit'
     >
         <img
             src='/assets/icons/loader.svg'
