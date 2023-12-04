@@ -157,7 +157,7 @@ export async function deleteFile(fileId : string){
     }
 }
 
-export async function getFilePreview(fileId : string){
+export function getFilePreview(fileId : string){
     try {
         const fileUrl = storage.getFilePreview(
             appwriteconfig.storageId,
