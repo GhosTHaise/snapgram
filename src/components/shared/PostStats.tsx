@@ -1,5 +1,6 @@
 import { useUserContext } from '@/context/AuthContext';
 import { useDeleteSavedPost, useLikePost, useSavePost } from '@/lib/react-query/queriesAndMutation';
+import { checkIsLiked } from '@/lib/utils';
 import { Models } from 'appwrite';
 import { useState, useEffect } from 'react';
 
@@ -25,15 +26,15 @@ const PostStats = ({post,userId} : PostStatsProps) => {
     <div className='flex justify-between items-center z-20'>
         <div className='flex gap-2 mr-5'>
             <img 
-                src='/assets/icons/like.svg' 
+                src={`${checkIsLiked(likes,userId) ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"}`} 
                 alt='like'
                 width={20}
                 height={20}
-                onClick={() => {}}
+                onClick={handleLikePost}
                 className='cursor-pointer'
             />
             <p className='small-medium lg:base-medium'>
-                0
+                {likes.length}
             </p>
         </div>
         <div className='flex gap-2 '>
