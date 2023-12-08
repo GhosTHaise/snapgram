@@ -1,8 +1,7 @@
-import { useUserContext } from '@/context/AuthContext';
-import { useDeleteSavedPost, useLikePost, useSavePost } from '@/lib/react-query/queriesAndMutation';
+import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from '@/lib/react-query/queriesAndMutation';
 import { checkIsLiked } from '@/lib/utils';
 import { Models } from 'appwrite';
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 
 type PostStatsProps = {
     post  : Models.Document;
@@ -17,7 +16,7 @@ const PostStats = ({post,userId} : PostStatsProps) => {
     const { mutate : savePost} = useSavePost()
     const { mutate : deleteSavedPost} = useDeleteSavedPost()
 
-    const { user : currentUser } = useUserContext()
+    const { data : currentUser } = useGetCurrentUser()
 
     const handleLikePost = (e : React.MouseEvent) => {
         e.stopPropagation()
@@ -36,7 +35,19 @@ const PostStats = ({post,userId} : PostStatsProps) => {
         likePost({postId : post.$id , likesArray : newLikes})
     }
 
-    const handleSavePost = () => {}
+    const handleSavePost = (e :React.MouseEvent) => {
+        e.stopPropagation()
+
+        const savedPostRecord =  currentUser?.save.find((record : Models.Document) => record.$id === post.$id)
+
+        if(savedPostRecord){
+            setisSaved(false);
+            deleteSavedPost(savedPostRecord.$id);
+        }else{
+            savePost({postId : post.$id,userId});
+            setisSaved(true);
+        }
+    }
   return (
     <div className='flex justify-between items-center z-20'>
         <div className='flex gap-2 mr-5'>
