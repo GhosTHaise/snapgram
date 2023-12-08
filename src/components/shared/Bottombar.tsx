@@ -7,14 +7,15 @@ const Bottombar = () => {
   return (
     <section className="bottom-bar">
       {
-                  bottombarLinks.map((link) => {
+                  bottombarLinks.map((link,index) => {
                     const isActive : boolean = pathname === link.route;
                       return (
                         <li 
+                        key={link.label+index}
                           >
                           <Link
                             to={link.route}
-                            key={link.label}
+                            
                             className={`${isActive && "bg-primary-500 rounded-[10px]" } flex-center flex-col gap-1 p-2 transition `}
                             >
                               <img 
