@@ -15,7 +15,8 @@ import { useToast } from "../ui/use-toast"
 import { useNavigate } from "react-router-dom"
  
 type PostFormProps = {
-  post? : Models.Document
+  post? : Models.Document;
+  action : "Create" | "Update"
 }
  
 const PostForm = ({post} : PostFormProps) => {
@@ -77,7 +78,7 @@ const PostForm = ({post} : PostFormProps) => {
                 <FormItem>
                   <FormLabel className="shad-form_label">Add Photos</FormLabel>
                   <FormControl>
-                    <FileUploader fieldChange={field.onChange} mediaUrl={post?.mediaUrl} />
+                    <FileUploader fieldChange={field.onChange} mediaUrl={post?.imageUrl} />
                   </FormControl>
                   <FormMessage className="shad-form_message" />
                 </FormItem>
