@@ -240,3 +240,17 @@ export async function deletesavesPost(savedRecordId : string){
         console.log(error);
     }
 } 
+
+export async function getPostById(postId : string){
+    try {
+        const post = await databases.getDocument(
+            appwriteconfig.databaseId,
+            appwriteconfig.postCollectionId,
+            postId
+        )
+
+        return post
+    } catch (error) {
+        throw error
+    }
+}
