@@ -7,7 +7,7 @@ const EditPost = () => {
   const { id } = useParams();
   const { data : post , isPending } = useGetPostById(id || "");
   
-  if(isPending) return <div className="h-screen w-screen flex items-center justify-center"><Loader /></div>
+  if(isPending) return <div className="h-screen w-full flex items-center justify-center"><Loader /></div>
   console.log(post);
   
   return (
