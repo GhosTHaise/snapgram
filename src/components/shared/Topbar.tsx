@@ -9,7 +9,6 @@ const Topbar = () => {
   const navigate = useNavigate();
   const { mutate : signOut , isSuccess} = userSignOutAccount();
   const {user} = useUserContext()
-  console.log(user);
   
   useEffect(() => {
     if(isSuccess) navigate(0)
