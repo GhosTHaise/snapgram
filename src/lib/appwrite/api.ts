@@ -130,59 +130,6 @@ export async function createPost(post: INewPost) {
     }
 }
 
-export async function updatePost(post: IUpdatePost) {
-    const hasFileToUpdate = post.file.length > 0;
-
-    try {
-        let image = {
-            imageUrl: post.imageUrl,
-            imageId: post.imageId
-        }
-
-        if (hasFileToUpdate) {
-            const uploadedFile = await uploadFile(post.file[0])
-
-            if (!uploadedFile) throw Error
-
-
-            //Get file url
-            const fileUrl = getFilePreview(uploadedFile.$id)
-
-            if (!fileUrl) {
-                deleteFile(uploadedFile.$id)
-                throw Error
-            }
-
-            image = {...image, imageUrl : fileUrl , imageId : uploadedFile.$id}
-        }
-        //convert tags in an array
-        const tags = post.tags?.replace(/ /g, '').split(",") || [];
-
-        //save post to data base
-        const updatedPost = await databases.updateDocument(
-            appwriteconfig.databaseId,
-            appwriteconfig.postCollectionId,
-            post.postId,
-            {
-                caption: post.caption,
-                imageUrl: image.imageUrl,
-                imageId: image.imageId,
-                location: post.location,
-                tags: tags
-            }
-        )
-
-        if (!updatedPost) {
-            await deleteFile(post.imageId)
-            throw Error
-        }
-
-        return updatedPost
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 export async function uploadFile(file: File) {
     try {
         const uploadedFile = await storage.createFile(
@@ -305,5 +252,76 @@ export async function getPostById(postId: string) {
         return post
     } catch (error) {
         throw error
+    }
+}
+
+export async function updatePost(post: IUpdatePost) {
+    const hasFileToUpdate = post.file.length > 0;
+
+    try {
+        let image = {
+            imageUrl: post.imageUrl,
+            imageId: post.imageId
+        }
+
+        if (hasFileToUpdate) {
+            const uploadedFile = await uploadFile(post.file[0])
+
+            if (!uploadedFile) throw Error
+
+
+            //Get file url
+            const fileUrl = getFilePreview(uploadedFile.$id)
+
+            if (!fileUrl) {
+                deleteFile(uploadedFile.$id)
+                throw Error
+            }
+
+            image = {...image, imageUrl : fileUrl , imageId : uploadedFile.$id}
+        }
+        //convert tags in an array
+        const tags = post.tags?.replace(/ /g, '').split(",") || [];
+
+        //save post to data base
+        const updatedPost = await databases.updateDocument(
+            appwriteconfig.databaseId,
+            appwriteconfig.postCollectionId,
+            post.postId,
+            {
+                caption: post.caption,
+                imageUrl: image.imageUrl,
+                imageId: image.imageId,
+                location: post.location,
+                tags: tags
+            }
+        )
+
+        if (!updatedPost) {
+            await deleteFile(post.imageId)
+            throw Error
+        }
+
+        return updatedPost
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function deletePost(postId : string,imageId : string){
+    if(!postId || !imageId) throw Error;
+
+    try {
+        await databases.deleteDocument(
+            appwriteconfig.databaseId,
+            appwriteconfig.postCollectionId,
+            postId
+        )
+        
+        await deleteFile(imageId);
+
+        return { status : "ok" }
+    } catch (error) {
+        console.log(error);
     }
 }
