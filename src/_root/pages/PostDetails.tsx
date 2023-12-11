@@ -1,4 +1,5 @@
 import Loader from '@/components/shared/Loader';
+import PostStats from '@/components/shared/PostStats';
 import { Button } from '@/components/ui/button';
 import { useUserContext } from '@/context/AuthContext';
 import { useGetPostById } from '@/lib/react-query/queriesAndMutation'
@@ -50,29 +51,50 @@ const PostDetails = () => {
                   </Link>
 
                   <div className='flex-center'>
-                    <Link 
+                    <Link
                       to={`/update-post/${post?.$id}`}
                       className={`${user.id !== post?.creator.$id && 'hidden'}`}
-                      >
-                        <img 
-                            src="/assets/icons/edit.svg" 
-                            alt="edit" 
-                            width={24}
-                            height={24} />
+                    >
+                      <img
+                        src="/assets/icons/edit.svg"
+                        alt="edit"
+                        width={24}
+                        height={24} />
                     </Link>
                     <Button
                       onClick={handleDeletePost}
                       value="ghost"
                       className={`ghost_details-delete_btn ${user.id !== post?.creator.$id && 'hidden'}`}
                     >
-                        <img 
-                          src="/assets/icons/delete.svg" 
-                          alt="delete"
-                          width={24}
-                          height={24}
-                          />
+                      <img
+                        src="/assets/icons/delete.svg"
+                        alt="delete"
+                        width={24}
+                        height={24}
+                      />
                     </Button>
                   </div>
+                </div>
+
+                <hr className='border w-full border-dark-4/80' />
+
+                <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
+                  <p>
+                    {post?.caption}
+                  </p>
+                  <ul className="flex gap-1 mt-2">
+                    {
+                      post?.tags.map((tag: string) => (
+                        <li key={tag} className="text-light-3">
+                          #{tag}
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+
+                <div className='w-full'>
+                  <PostStats post={post} userId={user.id} />
                 </div>
               </div>
             </div>
