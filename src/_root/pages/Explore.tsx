@@ -1,16 +1,31 @@
 import GridPostList from '@/components/shared/GridPostList'
+import Loader from '@/components/shared/Loader'
 import SearchResults from '@/components/shared/SearchResults'
 import { Input } from '@/components/ui/input'
+import useDebounce from '@/hooks/useDebounce'
+import { useGetPosts, useSearchPosts } from '@/lib/react-query/queriesAndMutation'
 import { useState } from 'react'
 
 
 const Explore = () => {
+
+  const { data : posts , fetchNexPage, hasNextPage } = useGetPosts();
+
   const [searchValue, setSearchValue] = useState<string>("")
   
-  //const posts  : any = []
+  const debouncedValue = useDebounce(searchValue, 500);
+  const { data : searchedPots , isFetching : isSearchFetcing } = useSearchPosts(debouncedValue)
 
-  //const shouldShowSearchResults = searchValue !== "";
-  //const shouldShowPosts = !shouldShowSearchResults && posts.pages.every((item  :any) => item.documents.length === 0)
+  if(!posts) {
+    return(
+      <div className='flex-center w-full h-full'>
+        <Loader />
+      </div>
+    )
+  }
+  
+  const shouldShowSearchResults = searchValue !== "";
+  const shouldShowPosts = !shouldShowSearchResults && posts?.pages.every((item  :any) => item.documents.length === 0)
   return (
     <div className='explore-container'>
         <div className='explore-inner_container'>
@@ -47,7 +62,7 @@ const Explore = () => {
         </div>    
 
         <div className='flex flex-wrap gap-9 w-full max-w-5xl'>
-              {/*
+              {
                 shouldShowSearchResults ?
                 (
                   <SearchResults />
@@ -57,13 +72,13 @@ const Explore = () => {
                 (
                   <p className='text-light-4 mt-10 text-center w-full'>End of posts</p>
                 ) : 
-                posts.pages.map((item, index) => (
+                posts?.pages.map((item, index) => (
                   <GridPostList 
                     key={`page-${index}`}
-                    posts={item.documents}
+                    posts={item?.documents}
                     />
                 ))
-                */}
+                }
         </div>    
     </div>
   )
