@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 
 type GridPostListProps = { 
   posts : Models.Document[];
-  
+  showUser? : boolean;
+  showStats? : boolean;
 }
 
-const GridPostList = ({posts} : GridPostListProps) => {
+const GridPostList = ({posts,showStats = true,showUser = true} : GridPostListProps) => {
 
   const { user } = useUserContext();
 
@@ -28,6 +29,16 @@ const GridPostList = ({posts} : GridPostListProps) => {
                 alt="post" 
                 className="h-full w-full object-cover" />
             </Link>
+            <div className="grid-post_user">
+                {
+                  showUser && (
+                    <div className="flex items-center justify-start gap-2">
+                      <img src={post.creator.imageUrl} alt="craetor" className="h-8 w-8 rounded-full" />
+                      <p className="line-clamp-1">{post.creator.name}</p>
+                    </div>
+                  )
+                }
+            </div>
           </li>
         ))
       }
