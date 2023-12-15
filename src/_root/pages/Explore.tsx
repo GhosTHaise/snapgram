@@ -14,7 +14,7 @@ const Explore = () => {
   const [searchValue, setSearchValue] = useState<string>("")
   
   const debouncedValue = useDebounce(searchValue, 500);
-  const { data : searchedPots , isFetching : isSearchFetcing } = useSearchPosts(debouncedValue)
+  const { data : searchedPost , isFetching : isSearchFetching } = useSearchPosts(debouncedValue)
 
   if(!posts) {
     return(
