@@ -4,6 +4,7 @@ import SearchResults from '@/components/shared/SearchResults'
 import { Input } from '@/components/ui/input'
 import useDebounce from '@/hooks/useDebounce'
 import { useGetPosts, useSearchPosts } from '@/lib/react-query/queriesAndMutation'
+import { Models } from 'appwrite'
 import { useState } from 'react'
 
 
@@ -14,7 +15,7 @@ const Explore = () => {
   const [searchValue, setSearchValue] = useState<string>("")
   
   const debouncedValue = useDebounce(searchValue, 500);
-  const { data : searchedPost , isFetching : isSearchFetching } = useSearchPosts(debouncedValue)
+  const { data : searchedPosts , isFetching : isSearchFetching } = useSearchPosts(debouncedValue)
 
   if(!posts) {
     return(
@@ -65,7 +66,10 @@ const Explore = () => {
               {
                 shouldShowSearchResults ?
                 (
-                  <SearchResults />
+                  <SearchResults
+                    isSeachFetching={isSearchFetching}
+                    searchedPosts={searchedPosts}
+                   />
                 )
                 :
                 shouldShowPosts ?
@@ -75,7 +79,7 @@ const Explore = () => {
                 posts?.pages.map((item, index) => (
                   <GridPostList 
                     key={`page-${index}`}
-                    posts={item?.documents}
+                    posts={item?.documents as Models.Document[]}
                     />
                 ))
                 }
